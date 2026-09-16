@@ -1,0 +1,136 @@
+import type { ChunkState, NetworkInterfaceKind } from '@shared/types'
+
+const UNITS = ['B', 'KB', 'MB', 'GB', 'TB']
+
+export function formatBytes(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes <= 0) return '0 B'
+  const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), UNITS.length - 1)
+  const value = bytes / 1024 ** exponent
+  return `${value.toFixed(exponent === 0 ? 0 : 1)} ${UNITS[exponent]}`
+}
+
+export function formatSpeed(bytesPerSec: number): string {
+  return `${formatBytes(bytesPerSec)}/s`
+}
+
+export function formatEta(remainingBytes: number, bytesPerSec: number): string {
+  if (bytesPerSec <= 0 || remainingBytes <= 0) return '—'
+  const seconds = remainingBytes / bytesPerSec
+  if (!Number.isFinite(seconds)) return '—'
+  if (seconds < 60) return `${Math.ceil(seconds)}s`
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return `${minutes}m ${Math.round(seconds % 60)}s`
+  const hours = Math.floor(minutes / 60)
+  return `${hours}h ${minutes % 60}m`
+}
+
+export function formatPercent(bytesDownloaded: number, totalBytes: number): number {
+  if (totalBytes <= 0) return 0
+  return Math.min(100, Math.round((bytesDownloaded / totalBytes) * 100))
+}
+
+export function fileNameFromPath(path: string): string {
+  return path.split('/').pop() ?? path
+}
+
+/** Short uppercase file-type badge from a name's extension, e.g. "Xcode_16.2.xip" -> "XIP". */
+export function fileExtensionBadge(fileName: string): string {
+  const dotIndex = fileName.lastIndexOf('.')
+  if (dotIndex <= 0 || dotIndex === fileName.length - 1) return 'FILE'
+  return fileName.slice(dotIndex + 1, dotIndex + 4).toUpperCase()
+}
+
+/** m:ss, or h:mm:ss past an hour. */
+export function formatDuration(seconds: number): string {
+  const total = Math.max(0, Math.round(seconds))
+  const hrs = Math.floor(total / 3600)
+  const mins = Math.floor((total % 3600) / 60)
+  const secs = total % 60
+  if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+  return `${mins}:${String(secs).padStart(2, '0')}`
+}
+
+/** "12.3 MB" -> { value: "12.3", unit: "MB" } — for readouts that size the number and unit separately. */
+export function splitFormattedBytes(bytes: number): { value: string; unit: string } {
+  const [value, unit] = formatBytes(bytes).split(' ')
+  return { value, unit }
+}
+
+export function dirnameOf(path: string): string {
+  const index = path.lastIndexOf('/')
+  return index <= 0 ? '/' : path.slice(0, index)
+}
+
+export interface NetworkGroup {
+  interfaceId: string
+  interfaceLabel: string
+  interfaceKind: NetworkInterfaceKind
+  chunks: ChunkState[]
+  bytesDownloaded: number
+  speedBytesPerSec: number
+}
+
+/** Chunks are the unit of transfer, but a physical network is the unit the user thinks and
+ * decides in — a network can carry several chunks (via "chunks per network", or ones split
+ * off by dynamic rebalancing). Groups chunks by their interface, in order of first appearance,
+ * with per-network totals so the UI can show one row per physical network. */
+export function groupChunksByInterface(chunks: ChunkState[]): NetworkGroup[] {
+  const order: string[] = []
+  const groups = new Map<string, NetworkGroup>()
+
+  for (const chunk of chunks) {
+    let group = groups.get(chunk.interfaceId)
+    if (!group) {
+      group = {
+        interfaceId: chunk.interfaceId,
+        interfaceLabel: chunk.interfaceLabel,
+        interfaceKind: chunk.interfaceKind,
+        chunks: [],
+        bytesDownloaded: 0,
+        speedBytesPerSec: 0
+      }
+      groups.set(chunk.interfaceId, group)
+      order.push(chunk.interfaceId)
+    }
+    group.chunks.push(chunk)
+    group.bytesDownloaded += chunk.bytesDownloaded
+    group.speedBytesPerSec += chunk.speedBytesPerSec
+  }
+
+  return order.map((interfaceId) => groups.get(interfaceId)!)
+}
+
+/** Shortens an absolute path under the user's home directory to a "~/..." form for display. */
+export function toDisplayPath(path: string, homeDir: string): string {
+  if (homeDir && (path === homeDir || path.startsWith(`${homeDir}/`))) {
+    return `~${path.slice(homeDir.length)}`
+  }
+  return path
+}
+
+const IPC_INVOKE_PREFIX = /^Error invoking remote method '[^']*':\s*/
+const NESTED_ERROR_PREFIX = /^Error:\s*/
+
+const NETWORK_ERROR_HINTS: Array<{ pattern: RegExp; message: string }> = [
+  {
+    pattern: /ENOTFOUND/,
+    message: 'Could not resolve that host — check the URL and your connection.'
+  },
+  { pattern: /ECONNREFUSED/, message: 'The server refused the connection.' },
+  { pattern: /ECONNRESET/, message: 'The connection was reset by the server.' },
+  { pattern: /ETIMEDOUT/, message: 'The connection timed out.' },
+  { pattern: /CERT|SSL|TLS/i, message: "The server's security certificate could not be verified." }
+]
+
+/** Electron wraps a rejected IPC call as "Error invoking remote method 'x': Error: <message>" —
+ * strip that framework noise and translate common network error codes into plain English. */
+export function describeError(error: unknown): string {
+  const raw = error instanceof Error ? error.message : String(error)
+  const stripped = raw.replace(IPC_INVOKE_PREFIX, '').replace(NESTED_ERROR_PREFIX, '')
+
+  for (const { pattern, message } of NETWORK_ERROR_HINTS) {
+    if (pattern.test(stripped)) return message
+  }
+
+  return stripped
+}
