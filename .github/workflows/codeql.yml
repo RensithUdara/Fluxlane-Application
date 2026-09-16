@@ -10,7 +10,7 @@ on:
       - main
       - master
   schedule:
-    - cron: "24 3 * * 1"
+    - cron: '24 3 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -33,12 +33,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@v3
         with:
           languages: javascript-typescript
 
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v4
+        uses: github/codeql-action/autobuild@v3
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@v3
