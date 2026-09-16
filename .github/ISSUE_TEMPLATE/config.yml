@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
-  - name: 💬 Support
+  - name: Support
     url: https://github.com/RensithUdara/Fluxlane-Application/issues
     about: Ask setup questions or request help.
+  - name: Documentation
+    url: https://github.com/RensithUdara/Fluxlane-Application#readme
+    about: Read setup, build, and usage notes.
