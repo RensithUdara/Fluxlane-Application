@@ -1,5 +1,6 @@
 appId: com.fluxlane.app
 productName: Fluxlane
+copyright: Copyright (c) 2026 Rensith Udara
 directories:
   buildResources: build
 files:
@@ -13,8 +14,9 @@ asarUnpack:
   - resources/**
 win:
   executableName: fluxlane
+  artifactName: ${productName}-${version}-windows-${arch}.${ext}
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
+  artifactName: ${productName}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
@@ -24,17 +26,18 @@ mac:
     - NSDownloadsFolderUsageDescription: Fluxlane saves downloaded files to your Downloads folder.
   notarize: false
 dmg:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${productName}-${version}-mac-${arch}.${ext}
 linux:
   target:
     - AppImage
     - snap
     - deb
-  maintainer: electronjs.org
+  maintainer: Rensith Udara
   category: Utility
 appImage:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${productName}-${version}-linux-${arch}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: github
+  owner: RensithUdara
+  repo: Fluxlane-Application
