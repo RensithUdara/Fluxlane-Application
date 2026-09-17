@@ -1,4 +1,4 @@
-import { FONT_MONO } from '../theme'
+import { FONT_MONO } from '../app/theme'
 import { formatSpeed } from '../utils/format'
 
 const ROW_HEIGHT = 36
