@@ -199,7 +199,12 @@ dist/mac/Fluxlane.app
 src/
   main/        Electron main process, downloads, IPC, network detection
   preload/     Safe bridge between renderer and main process
-  renderer/    React UI
+  renderer/    React UI shell
+    src/app/       App composition and design tokens
+    src/components/Reusable UI components
+    src/screens/   Download workflow screens
+    src/styles/    Global CSS
+    src/assets/    Fonts and static renderer assets
   shared/      Shared TypeScript types and IPC channel names
 resources/     Runtime app assets
 build/         Build icons and Electron Builder resources
