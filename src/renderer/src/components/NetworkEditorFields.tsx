@@ -7,7 +7,7 @@ import {
   NETWORK_COLOR_SWATCHES,
   resolveNetworkVisual,
   type NetworkColorId
-} from '../theme'
+} from '../app/theme'
 
 export interface NetworkEditorFieldsProps {
   anchorRef: React.RefObject<HTMLElement | null>
