@@ -1,5 +1,5 @@
 import type { NetworkInterfaceKind } from '@shared/types'
-import { FONT_MONO, KIND_PALETTE } from '../theme'
+import { FONT_MONO, KIND_PALETTE } from '../app/theme'
 
 export function KindBadge({ kind }: { kind: NetworkInterfaceKind }): React.JSX.Element {
   const palette = KIND_PALETTE[kind]
