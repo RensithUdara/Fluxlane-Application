@@ -8,7 +8,7 @@ import {
   footerTextStyle,
   primaryButtonStyle,
   secondaryButtonStyle
-} from '../theme'
+} from '../app/theme'
 import { fileExtensionBadge, formatBytes } from '../utils/format'
 
 export function ErrorScreen({
