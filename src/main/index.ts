@@ -1,13 +1,20 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, nativeTheme, shell } from 'electron'
 import { join } from 'path'
-import icon from '../../resources/icon.png?asset'
+import linuxIcon from '../../resources/icon.png?asset'
+import windowsIcon from '../../resources/icon.ico?asset'
 import { registerIpcHandlers } from './ipc/handlers'
 import type { DownloadManager } from './download/downloadManager'
 
 let mainWindow: BrowserWindow | null = null
 let downloadManager: DownloadManager | null = null
 let quitAfterSuspending = false
+
+function resolveWindowIcon(): string | undefined {
+  if (process.platform === 'win32') return windowsIcon
+  if (process.platform === 'linux') return linuxIcon
+  return undefined
+}
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -21,7 +28,7 @@ function createWindow(): void {
     // Matches the renderer's dark-mode background so a live window resize
     // (which briefly exposes the raw window background) doesn't flash white.
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#1c1c1e' : '#ffffff',
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon: resolveWindowIcon(),
     // Design v2 draws its own logo + status readout where the title normally sits — on macOS,
     // keep the real traffic lights (still native, still draggable) but let the renderer's own
     // title bar occupy the rest of the strip instead of an OS-drawn title.
