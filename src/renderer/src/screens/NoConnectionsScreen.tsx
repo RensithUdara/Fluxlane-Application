@@ -1,7 +1,7 @@
 import { MergeDiagram } from '../components/MergeDiagram'
 import { useNetworkPolling } from '../hooks/useNetworkPolling'
 import { useAppStore } from '../store/useAppStore'
-import { FONT_MONO, FONT_UI, disabledPrimaryButtonStyle, secondaryButtonStyle } from '../theme'
+import { FONT_MONO, FONT_UI, disabledPrimaryButtonStyle, secondaryButtonStyle } from '../app/theme'
 
 const PLACEHOLDER_NETWORKS = [
   { solid: 'var(--icon-muted)', label: 'Wi-Fi' },
