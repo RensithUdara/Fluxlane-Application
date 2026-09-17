@@ -1,6 +1,7 @@
 appId: com.fluxlane.app
 productName: Fluxlane
 copyright: Copyright (c) 2026 Rensith Udara
+icon: build/icon.png
 directories:
   buildResources: build
 files:
@@ -14,6 +15,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: fluxlane
+  icon: build/icon.ico
   artifactName: ${productName}-${version}-windows-${arch}.${ext}
 nsis:
   artifactName: ${productName}-${version}-setup.${ext}
@@ -21,6 +23,7 @@ nsis:
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
 mac:
+  icon: build/icon.icns
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
     - NSDownloadsFolderUsageDescription: Fluxlane saves downloaded files to your Downloads folder.
@@ -28,6 +31,7 @@ mac:
 dmg:
   artifactName: ${productName}-${version}-mac-${arch}.${ext}
 linux:
+  icon: build/icon.png
   target:
     - AppImage
     - snap
