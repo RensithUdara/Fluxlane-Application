@@ -208,6 +208,7 @@ src/
   shared/      Shared TypeScript types and IPC channel names
 resources/     Runtime app assets
 build/         Build icons and Electron Builder resources
+docs/          Project documentation and community files
 ```
 
 ---
@@ -226,8 +227,8 @@ Contributions are welcome.
 
 Start here:
 
-- Read [CONTRIBUTING.md](CONTRIBUTING.md).
-- Check [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+- Read [CONTRIBUTING.md](docs/CONTRIBUTING.md).
+- Check [CODE_OF_CONDUCT.md](docs/CODE_OF_CONDUCT.md).
 - Open an issue before large changes.
 - Run `npm run typecheck` before submitting a pull request.
 
@@ -237,7 +238,7 @@ Start here:
 
 Please do not open public issues for security problems.
 
-Read [SECURITY.md](SECURITY.md) for responsible disclosure instructions.
+Read [SECURITY.md](docs/SECURITY.md) for responsible disclosure instructions.
 
 ---
 
