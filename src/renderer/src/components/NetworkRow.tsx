@@ -8,7 +8,7 @@ import {
   NETWORK_ROW_GRID_COLUMNS,
   resolveNetworkVisual,
   type NetworkColorId
-} from '../theme'
+} from '../app/theme'
 import type { NetworkGroup } from '../utils/format'
 import { formatBytes, formatSpeed } from '../utils/format'
 import { NetworkEditorFields } from './NetworkEditorFields'
