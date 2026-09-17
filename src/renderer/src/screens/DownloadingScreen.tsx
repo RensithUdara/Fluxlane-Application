@@ -19,7 +19,7 @@ import {
   secondaryButtonStyle,
   sectionHeaderLabelStyle,
   sectionHeaderMetaStyle
-} from '../theme'
+} from '../app/theme'
 import {
   dirnameOf,
   fileExtensionBadge,
