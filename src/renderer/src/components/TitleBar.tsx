@@ -1,4 +1,4 @@
-import { FONT_UI, TITLE_BAR_HEIGHT, pillStyle } from '../theme'
+import { FONT_UI, TITLE_BAR_HEIGHT, pillStyle } from '../app/theme'
 
 export type TitleBarStatus =
   | { kind: 'none' }
