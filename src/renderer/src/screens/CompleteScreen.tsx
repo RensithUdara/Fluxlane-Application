@@ -15,7 +15,7 @@ import {
   statGridStyle,
   statLabelStyle,
   statValueStyle
-} from '../theme'
+} from '../app/theme'
 import {
   dirnameOf,
   formatBytes,
