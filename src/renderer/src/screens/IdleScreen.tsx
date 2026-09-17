@@ -12,7 +12,7 @@ import {
   secondaryButtonStyle,
   sectionHeaderLabelStyle,
   sectionHeaderMetaStyle
-} from '../theme'
+} from '../app/theme'
 import { describeError, formatBytes, toDisplayPath } from '../utils/format'
 
 type ProbeState =
