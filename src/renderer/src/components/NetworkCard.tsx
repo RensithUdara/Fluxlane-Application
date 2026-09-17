@@ -1,7 +1,7 @@
 import type { NetworkInterfaceInfo } from '@shared/types'
 import { useRef, useState } from 'react'
 import { useAppStore } from '../store/useAppStore'
-import { FONT_MONO, FONT_UI, resolveNetworkVisual, type NetworkColorId } from '../theme'
+import { FONT_MONO, FONT_UI, resolveNetworkVisual, type NetworkColorId } from '../app/theme'
 import { NetworkEditorFields } from './NetworkEditorFields'
 
 interface NetworkCardProps {
