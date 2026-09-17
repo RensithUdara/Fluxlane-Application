@@ -1,6 +1,6 @@
 import type { BlockState, BlockStatus } from '@shared/types'
 import { useCallback, useRef, useState } from 'react'
-import { FONT_MONO, type NetworkVisual } from '../theme'
+import { FONT_MONO, type NetworkVisual } from '../app/theme'
 import { formatBytes, type NetworkGroup } from '../utils/format'
 
 // The grid is a byte-space map of the file: one square per chunk, running left-to-right,
