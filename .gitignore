@@ -4,4 +4,7 @@ out
 .DS_Store
 .eslintcache
 *.log*
-config.bat
+.env
+.env.*
+.env.local
+.env.production
